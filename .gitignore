@@ -1,0 +1,7 @@
+logs/*
+!.gitkeep
+node_modules/
+/npm-debug.log
+npm-debug.log
+coverage/
+kinlen-bookings/

@@ -1,0 +1,32 @@
+/******************************************************************************/
+/* DOPBSPCalendar styles
+/******************************************************************************/
+
+/* remove big calendar DOPBSPCalendar*/
+.DOPBSPCalendar-container {
+  display: none;
+}
+
+/*do not allow input to grow too much in some themes (oceanwp) DOPBSPCalendar*/
+.dopbsp-input-wrapper input {
+  min-height: 0 !important;
+}
+
+/*fix extras checkbox for some themes DOPBSPCalendar*/
+.DOPSelect.dopselect-multiple ul li input[type="checkbox"] {
+  margin-top: 0px !important;
+}
+
+/*remove scroll bars if not needed in Extras DOPBSPCalendar*/
+.DOPSelect.dopselect-multiple ul {
+  overflow-y: auto !important;
+}
+
+/*hide extras header DOPBSPCalendar*/
+#DOPBSPCalendar-extras1 h4{
+    display: none !important;
+}
+
+/******************************************************************************/
+/* Generic styles
+/******************************************************************************/
