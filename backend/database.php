@@ -33,9 +33,10 @@ class Database {
       id int(10) NOT NULL AUTO_INCREMENT,
       date date,
       time time,
-      restaurant_booking int(10),
+      time_lenght int(10),
+      restaurant_booking_id int(10),
       guide_id int(10),
-      booked_places int(10),
+      booked_seats int(10),
       PRIMARY KEY  (id)
       ) $charset_collate;";
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );

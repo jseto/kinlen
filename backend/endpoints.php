@@ -27,7 +27,8 @@ class EndPoints {
       'callback' => array( $this, 'getGuideBooking' ),
     ) );
 
-    register_rest_route( 'kinlen', '/avail_map', array(
+    // check call http://localhost/wp-json/kinlen/avail_map/?date=2018-09-25
+    register_rest_route( 'kinlen', '/avail_map/', array(
       'methods' => 'GET',
       'callback' => array( $this, 'getAvailMap' ),
     ) );
