@@ -13,19 +13,35 @@ class EndPoints {
     $this->db = new Database();
   }
 
-  function getGuideBooking( $data ) {
-    return $this->db->getGuideBooking( $data->get_params() );
+  function getBooking( $data ) {
+    return $this->db->getBooking( $data->get_params() );
+  }
+
+	function getFreeGuide( $data ) {
+    return $this->db->getFreeGuide( $data->get_params() );
   }
 
   function getAvailMap( $data ) {
-    return $this->db->getGuideBooking( $data->get_params() );
+    return $this->db->getBooking( $data->get_params() );
   }
 
   function createEndpoints() {
-    register_rest_route( 'kinlen', '/guide_booking/(?P<id>\d+)', array(
+		// posible calls:
+		// 		http://localhost/wp-json/kinlen/booking/?date=2018-09-25   => all bookings for the day
+		// 		http://localhost/wp-json/kinlen/booking/?id=3   => 1 booking by id
+		// 		http://localhost/wp-json/kinlen/booking/?date=2018-09-25&time=19:00:00   => all bookings for the day at time
+		// 		http://localhost/wp-json/kinlen/booking   => all bookings in the system
+    register_rest_route( 'kinlen', '/booking/', array(
       'methods' => 'GET',
-      'callback' => array( $this, 'getGuideBooking' ),
+      'callback' => array( $this, 'getBooking' ),
     ) );
+
+		// posible calls:
+		// 		http://localhost/wp-json/kinlen/free_guide/?date=2018-09-25   => all guides not assigned to booking for the day
+		register_rest_route( 'kinlen', '/free_guide/', array(
+			'methods' => 'GET',
+			'callback' => array( $this, 'getFreeGuides' ),
+		) );
 
     // check call http://localhost/wp-json/kinlen/avail_map/?date=2018-09-25
     register_rest_route( 'kinlen', '/avail_map/', array(
