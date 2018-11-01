@@ -4,6 +4,21 @@
     $('#bookingButton').on( 'click', function() {
       openTab( 'detail-tab', 'Book Now' );
     });
+		var calendar = $('#form-field-bookingDateInput');
+		calendar.ready( /*'click', */function(){
+			calendar.flatpickr({
+				disable: ["2018-11-30", "2018-11-21", "2018-11-08", new Date(2018, 10, 9)],
+		    onMonthChange: function( selectedDates, dateStr, instance ) {
+//		    	instance.config.disable = ["2018-11-7", "2018-10-7", "2018-12-07"];
+		    	instance.config.disable = [ new Date(2018, instance.currentMonth, 7)];
+		    	instance.redraw();
+				console.log('monthChange ', instance.currentMonth);
+				}
+			});
+		});
+		calendar.change( function(){
+			console.log('fgf');
+		});
   });
 
   /**

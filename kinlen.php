@@ -39,15 +39,24 @@ class Kinlen {
     //  wp_enqueue_script( 'kinlenjs', plugins_url( '/backend/js/kinlen.js', __FILE__) );
   }
 
-  function enqueueFrontEndScripts() {
-    wp_enqueue_script( 'kinlen', plugins_url( '/frontend/js/kinlen.js', __FILE__), array( 'jquery' ), '0.1.0' );
+	function enqueueProductionFrontEndScripts() {
+		wp_enqueue_style( 'kinlenstyle', plugins_url( '/frontend/css/kinlen.css', __FILE__), false, '0.1.0' );
 
-    wp_enqueue_style( 'kinlenstyle', plugins_url( '/frontend/css/kinlen.css', __FILE__), false, '0.1.0' );
+		wp_enqueue_script( 'kinlenjs', plugins_url( '/frontend/js/kinlen.js', __FILE__) );
+		wp_enqueue_script( 'kinlen-bookings', plugins_url( '/frontend/kinlen-bookings/main.kinlen.js', __FILE__), array( 'react-datepicker' ), '0.1.0' );
+  }
+
+	function enqueueDevelopmentFrontEndScripts() {
+		wp_enqueue_style( 'kinlenstyle', plugins_url( '/frontend/css/kinlen.css', __FILE__), false, '0.1.0' );
+
+		wp_enqueue_script( 'kinlenjs', plugins_url( '/frontend/js/kinlen.js', __FILE__) );
+		wp_enqueue_script( 'kinlen-bookings', plugins_url( '/frontend/kinlen-bookings/main.kinlen.js', __FILE__), array( 'react-datepicker' ), '0.1.0' );
   }
 
   function register() {
     add_action( 'admin_enqueue_scripts', array( $this, 'enqueueAdminScripts' ) );
-    add_action( 'wp_enqueue_scripts', array( $this, 'enqueueFrontEndScripts' ) );
+//    add_action( 'wp_enqueue_scripts', array( $this, 'enqueueProductionFrontEndScripts' ) );
+    add_action( 'wp_enqueue_scripts', array( $this, 'enqueueDevelopmentFrontEndScripts' ) );
   }
 
   function activate(){
