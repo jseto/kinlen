@@ -23,18 +23,39 @@ class Database {
 			$whereClause = ' WHERE ' . $whereClause;
 		}
 
+		global $wpdb;
 	 	return $wpdb->get_results( "SELECT * FROM $table" . $whereClause, OBJECT );
   }
 
-	function getFreeGuides( $params ){
-    $tableGuide = Database::tableNames()->guide;
-		$tableBooking = Database::tableNames()->booking;
+	function getFreeGuide( $params ){
+    $guideTable = Database::tableNames()->guide;
+		$bookingsTable = Database::tableNames()->booking;
+		$guideHolidaysTable = Database::tableNames()->guideHolidays;
 		$date = $params[ 'date' ];
 
-		$whereClause = 'SELECT * FROM $tableGuide WHERE guide_id NOT IN ( SELECT guide_id FROM $tableBooking WHERE date = $date )';
+		$sqlArr[] =	'SELECT * FROM';
+		$sqlArr[] = $guideTable;
+		$sqlArr[] = 'WHERE ( id NOT IN ( SELECT guide_id FROM';
+		$sqlArr[] = $bookingsTable;
+		$sqlArr[] = 'WHERE date =';
+		$sqlArr[] = '"' . $params[ 'date' ] . '"';
+		$sqlArr[] = ') ) AND ( id not in ( SELECT id FROM';
+		$sqlArr[] = $guideHolidaysTable;
+		$sqlArr[] = 'WHERE date =';
+		$sqlArr[] = '"' . $params[ 'date' ] . '"';
+		$sqlArr[] = ') ) ORDER BY score DESC;';
+
+		global $wpdb;
+		$resp = $wpdb->get_results( join( ' ', $sqlArr ), OBJECT );
+		if ( sizeof( $resp ) ) {
+			return $resp[0];
+		}
+		else {
+			return (object)[];
+		}
 	}
 
-	private function queryPeriod( $table, $params ) {
+	function queryPeriod( $table, $params ) {
 		$whereArr[] = 'date >= "'.$params[ 'minDate' ].'"';
 		$whereArr[] = 'date <= "'.$params[ 'maxDate' ].'"';
 		unset( $params[ 'minDate' ] );
@@ -55,16 +76,18 @@ class Database {
 	}
 
 	private function query( $table, $whereArr ) {
-		$sqlStr = 'SELECT * FROM $table';
+		$sqlStr = 'SELECT * FROM '.$table;
 		if ( !empty( $whereArr ) ) {
 			$sqlStr = $sqlStr.' WHERE '.join( " AND ", $whereArr );
 		}
 
+		global $wpdb;
 		return $wpdb->get_results( $sqlStr, OBJECT );
 	}
 
 	static function tableNames() {
 		global $wpdb;
+
 		$prefix = $wpdb->prefix . "kinlen_";
     $tNames[ 'booking' ] = $prefix . "booking";
 		$tNames[ 'guide' ] = $prefix . "guide";
@@ -88,6 +111,7 @@ class Database {
       date date,
       time time,
       time_length int(10),
+			comment text,
       restaurant_id int(10),
       guide_id int(10),
       booked_seats int(10),

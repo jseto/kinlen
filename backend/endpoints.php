@@ -24,7 +24,12 @@ class EndPoints {
 	function getRestaurantHolidayPeriod( $data ) {
 		$table = Database::tableNames()->restaurantHolidays;
 
-		return $this->db->getPeriod( $table, $data->get_params() );
+		return $this->db->queryPeriod( $table, $data->get_params() );
+	}
+
+	function getBookingPeriod( $data ) {
+		$table = Database::tableNames()->booking;
+		return $this->db->queryPeriod( $table, $data->get_params() );
 	}
 
   function getAvailMap( $data ) {
@@ -46,21 +51,21 @@ class EndPoints {
 		// 		http://localhost/wp-json/kinlen/booking_period/?restaurant_id=1&minDate=2019-08-01&maxDate=2019-08-31   => all bookings for restaurant_id between minDate and maxDate
     register_rest_route( 'kinlen', '/booking_period/', array(
       'methods' => 'GET',
-      'callback' => array( $this, '##########getBooking' ),
+      'callback' => array( $this, 'getBookingPeriod' ),
     ) );
 
 		// posible calls:
 		// 		http://localhost/wp-json/kinlen/free_guide/?date=2018-09-25   => all guides not assigned to booking for the day
 		register_rest_route( 'kinlen', '/free_guide/', array(
 			'methods' => 'GET',
-			'callback' => array( $this, 'getFreeGuides' ),
+			'callback' => array( $this, 'getFreeGuide' ),
 		) );
 
 		// posible calls:
 		// 		http://localhost/wp-json/kinlen/guide_holiday/?id=4&date=2001-05-01   => does guide id have hollidays on date
     register_rest_route( 'kinlen', '/guide_holiday/', array(
       'methods' => 'GET',
-      'callback' => array( $this, 'getHoliday' ),
+      'callback' => array( $this, 'getGuideHoliday' ),
     ) );
 
 		// posible calls:
@@ -74,7 +79,7 @@ class EndPoints {
 		// 		http://localhost/wp-json/kinlen/restaurant_holiday_period/?id=1&minDate=2010-09-01&maxDate=2010-09-31   => all hollidays of restaurant id between  minDate and maxDate
     register_rest_route( 'kinlen', '/restaurant_holiday_period/', array(
       'methods' => 'GET',
-      'callback' => array( $this, '########getBooking' ),
+      'callback' => array( $this, 'getRestaurantHolidayPeriod' ),
     ) );
 
     // check call http://localhost/wp-json/kinlen/avail_map/?date=2018-09-25
