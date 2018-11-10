@@ -18,7 +18,7 @@ class EndPoints {
   }
 
 	function getFreeGuide( $data ) {
-    return $this->db->getFreeGuide( $data->get_params() );
+    return $this->db->queryFreeGuidePeriod( $data->get_params() );
   }
 
 	function getRestaurantHolidayPeriod( $data ) {

@@ -27,7 +27,7 @@ class Database {
 	 	return $wpdb->get_results( "SELECT * FROM $table" . $whereClause, OBJECT );
   }
 
-	function getFreeGuide( $params ){
+	function queryFreeGuide( $params ){
     $guideTable = Database::tableNames()->guide;
 		$bookingsTable = Database::tableNames()->booking;
 		$guideHolidaysTable = Database::tableNames()->guideHolidays;
@@ -54,6 +54,24 @@ class Database {
 			return (object)[];
 		}
 	}
+
+	function queryFreeGuidePeriod( $params ) {
+		if ( isset( $params ['date'] ) ) {
+			return $this->queryFreeGuide( $params );
+		}
+
+		$currentDate = strtotime( $params[ 'minDate' ] );
+		$maxDate = strtotime( $params[ 'maxDate' ] );
+		while ( $currentDate <= $maxDate ) {
+			$dateStr = date( "Y-m-d", $currentDate );
+			$obj = $this->queryFreeGuide( [ "date" => $dateStr ] );
+			$obj->date = $dateStr;
+			$resp[] = $obj;
+			$currentDate = strtotime("+1 day", $currentDate );
+		}
+		return $resp;
+	}
+
 
 	function queryPeriod( $table, $params ) {
 		$whereArr[] = 'date >= "'.$params[ 'minDate' ].'"';

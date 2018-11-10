@@ -6,26 +6,25 @@
     $('#bookingButton').on( 'click', function() {
       openTab( 'detail-tab', 'Book Now' );
     });
-		calendarMng = KinlenBooking.datePickerManager( 1 );
-		var calendar = $('#form-field-bookingDateInput');
-		calendar.ready( /*'click', */function(){
-			console.log(calendar.flatpickr().currentMonth);
-			calendar.flatpickr({
-//				disable: ["2018-11-30", "2018-11-21", "2018-11-08", new Date(2018, calendar.flatpickr().currentMonth, 9)],
-		    onMonthChange: setDisabledDates,
-				onOpen: setDisabledDates
+		var calendar = $('#form-field-kl-booking-date');
+		if ( calendar.flatpickr ) {
+			calendar.flatpickr({disableMobile: true})
+			calendarMng = KinlenBooking.datePickerManager( 1 );
+			calendar.ready( /*'click', */function(){
+				calendar.flatpickr({
+					disableMobile: true,
+			    onMonthChange: setDisabledDates,
+					onOpen: setDisabledDates,
+					onChange: function( selectedDates, dateStr, instance ) {
+						console.log( dateStr );
+					}
+				});
 			});
-		});
-		calendar.change( function(){
-			console.log('fgf');
-		});
+		}
   });
 
 	function setDisabledDates( selectedDates, dateStr, instance ) {
 		calendarMng.updateDates( instance );
-		// instance.config.disable = [ new Date(2018, instance.currentMonth, 7)];
-		// instance.redraw();
-		// console.log('monthChange ', instance.currentMonth);
 	}
 
   /**
