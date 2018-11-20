@@ -111,6 +111,7 @@ class Database {
 		$tNames[ 'guide' ] = $prefix . "guide";
 		$tNames[ 'guideHolidays' ] = $prefix . "guide_holiday";
 		$tNames[ 'restaurantHolidays' ] = $prefix . "restaurant_holiday";
+		$tNames[ 'restaurant' ] = $prefix . "restaurant";
 		return (object)$tNames;
 	}
 
@@ -132,7 +133,14 @@ class Database {
 			comment text,
       restaurant_id int(10),
       guide_id int(10),
-      booked_seats int(10),
+			adults int(10),
+			children int(10),
+			coupon varchar(15),
+			adultPrice int(10),
+			childrenPrice int(10),
+			couponValue int(10),
+			paidAmount int(10),
+			paid int(1),
       PRIMARY KEY  (id)
       ) $charset_collate;";
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -164,6 +172,31 @@ class Database {
 		) $charset_collate;";
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	  maybe_create_table( $tNames->restaurantHolidays, $sql );
+
+		$sql = "CREATE TABLE $tNames->restaurant (
+			id int(10),
+			name varchar(255),
+			adultPrice int(10),
+			childrenPrice int(10),
+			description text,
+			excerpt varchar(255),
+			services varchar(255),
+			foodTypes varchar(255),
+			dishSpecials varchar(255),
+			valoration float(2,2),
+			numberOfReviews int(10),
+			includes varchar(255),
+			excludes varchar(255),
+			phone varchar(255),
+			staffNames varchar(255),
+			address varchar(255),
+			googleMaps varchar(255),
+			images varchar(255),
+			paypal varchar(255),
+			PRIMARY KEY (id)
+		) $charset_collate;";
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+	  maybe_create_table( $tNames->restaurant, $sql );
 	}
 
   static function createIndexes() {

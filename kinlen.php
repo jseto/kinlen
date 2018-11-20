@@ -43,7 +43,7 @@ class Kinlen {
 		wp_enqueue_style( 'kinlenstyle', plugins_url( '/frontend/css/kinlen.css', __FILE__), false, '0.1.0' );
 
 //		wp_enqueue_script( 'kinlen-bookings-vendor', plugins_url( '/frontend/kinlen-bookings/vendor.kinlen.js', __FILE__) );
-		wp_enqueue_script( 'kinlen-bookings', plugins_url( '/frontend/kinlen-bookings/main.kinlen.js', __FILE__) );
+		wp_enqueue_script( 'kinlen-bookings', plugins_url( '/frontend/kinlen-bookings/main.kinlen.js', __FILE__), array( 'flatpickr' ), '', true );
 		// wp_enqueue_script( 'kinlenjs', plugins_url( '/frontend/js/kinlen.js', __FILE__) );
   }
 
