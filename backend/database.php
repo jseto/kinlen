@@ -141,6 +141,10 @@ class Database {
 			couponValue int(10),
 			paidAmount int(10),
 			paid int(1),
+			name varchar(255),
+			email varchar(255),
+			paypalPaymentId varchar(255),
+			trasactionTimeStamp timestamp,
       PRIMARY KEY  (id)
       ) $charset_collate;";
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
