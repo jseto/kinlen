@@ -32,9 +32,17 @@ class EndPoints {
 		return $this->db->queryPeriod( $table, $data->get_params() );
 	}
 
-  function getAvailMap( $data ) {
-    return $this->db->getBooking( $data->get_params() );
-  }
+	function getRestaurant( $data ) {
+		$table = Database::tableNames()->restaurant;
+
+		return $this->db->queryGeneric( $table, $data->get_params() );
+	}
+
+	function getCoupon( $data ) {
+		$table = Database::tableNames()->coupon;
+
+		return $this->db->queryGeneric( $table, $data->get_params() );
+	}
 
   function createEndpoints() {
 		// posible calls:
@@ -77,15 +85,19 @@ class EndPoints {
 
 		// posible calls:
 		// 		http://localhost/wp-json/kinlen/restaurant_holiday_period/?id=1&minDate=2010-09-01&maxDate=2010-09-31   => all hollidays of restaurant id between  minDate and maxDate
-    register_rest_route( 'kinlen', '/restaurant_holiday_period/', array(
+		register_rest_route( 'kinlen', '/restaurant_holiday_period/', array(
       'methods' => 'GET',
       'callback' => array( $this, 'getRestaurantHolidayPeriod' ),
     ) );
 
-    // check call http://localhost/wp-json/kinlen/avail_map/?date=2018-09-25
-    register_rest_route( 'kinlen', '/avail_map/', array(
+		register_rest_route( 'kinlen', '/restaurant/', array(
       'methods' => 'GET',
-      'callback' => array( $this, 'getAvailMap' ),
+      'callback' => array( $this, 'getRestaurant' ),
+    ) );
+
+		register_rest_route( 'kinlen', '/coupon/', array(
+      'methods' => 'GET',
+      'callback' => array( $this, 'getCoupon' ),
     ) );
   }
 }

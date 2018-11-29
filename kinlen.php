@@ -42,8 +42,9 @@ class Kinlen {
 	function enqueueFrontEndScripts() {
 		wp_enqueue_style( 'kinlenstyle', plugins_url( '/frontend/css/kinlen.css', __FILE__), false, '0.1.0' );
 
-//		wp_enqueue_script( 'kinlen-bookings-vendor', plugins_url( '/frontend/kinlen-bookings/vendor.kinlen.js', __FILE__) );
-		wp_enqueue_script( 'kinlen-bookings', plugins_url( '/frontend/kinlen-bookings/main.kinlen.js', __FILE__), array( 'flatpickr' ), '', true );
+		wp_register_script( 'paypal', 'https://www.paypalobjects.com/api/checkout.js', null, null, true );
+		wp_enqueue_script( 'paypal' );
+		wp_enqueue_script( 'kinlen-bookings', plugins_url( '/frontend/kinlen-bookings/main.kinlen.js', __FILE__), array( 'flatpickr', 'paypal' ), '', true );
 		// wp_enqueue_script( 'kinlenjs', plugins_url( '/frontend/js/kinlen.js', __FILE__) );
   }
 

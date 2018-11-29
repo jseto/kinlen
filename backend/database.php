@@ -85,7 +85,7 @@ class Database {
 		return $this->query( $table, $whereArr );
   }
 
-	private function queryGeneric( $table, $params ) {
+	function queryGeneric( $table, $params ) {
 		foreach ( $params as $key => $value ) {
 			$whereArr[] = $key.'= "'.$value.'"';
 		}
@@ -112,6 +112,7 @@ class Database {
 		$tNames[ 'guideHolidays' ] = $prefix . "guide_holiday";
 		$tNames[ 'restaurantHolidays' ] = $prefix . "restaurant_holiday";
 		$tNames[ 'restaurant' ] = $prefix . "restaurant";
+		$tNames[ 'coupon' ] = $prefix . "coupon";
 		return (object)$tNames;
 	}
 
@@ -201,6 +202,20 @@ class Database {
 		) $charset_collate;";
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	  maybe_create_table( $tNames->restaurant, $sql );
+
+		$sql = "CREATE TABLE $tNames->coupon (
+			id int(10),
+			code varchar(20),
+			validUntil date,
+			value int(10),
+			valueType varchar(10),
+			commission int(10),
+			commisionistId int(10),
+			PRIMARY KEY (id)
+		) $charset_collate;";
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+	  maybe_create_table( $tNames->coupon, $sql );
+
 	}
 
   static function createIndexes() {
