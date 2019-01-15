@@ -103,6 +103,14 @@ class Database {
 		return $wpdb->get_results( $sqlStr, OBJECT );
 	}
 
+	function insert( $table, $data ) {
+		global $wpdb;
+		$wpdb->insert( $table, $data );
+
+		$sqlStr = 'SELECT * FROM '.$table.' WHERE id='.$wpdb->insert_id;
+		return $wpdb->get_results( $sqlStr, OBJECT );
+	}
+
 	static function tableNames() {
 		global $wpdb;
 

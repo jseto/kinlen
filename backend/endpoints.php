@@ -17,6 +17,11 @@ class EndPoints {
     return $this->db->getBooking( $data->get_params() );
   }
 
+  function insertBooking( $data ) {
+		$table = Database::tableNames()->booking;
+    return $this->db->insert( $table, $data->get_params() );
+  }
+
 	function getFreeGuide( $data ) {
     return $this->db->queryFreeGuidePeriod( $data->get_params() );
   }
@@ -51,8 +56,14 @@ class EndPoints {
 		// 		http://localhost/wp-json/kinlen/booking/?date=2018-09-25&time=19:00:00   => all bookings for the day at time
 		// 		http://localhost/wp-json/kinlen/booking   => all bookings in the system
     register_rest_route( 'kinlen', '/booking/', array(
-      'methods' => 'GET',
-      'callback' => array( $this, 'getBooking' ),
+			array(
+      	'methods' => 'GET',
+      	'callback' => array( $this, 'getBooking' )
+			),
+			array(
+      	'methods' => 'POST',
+      	'callback' => array( $this, 'insertBooking' )
+			),
     ) );
 
 		// posible calls:
