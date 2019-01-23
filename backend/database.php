@@ -175,7 +175,9 @@ class Database {
 			paid int(1),
 			name varchar(255),
 			email varchar(255),
-			paypalPaymentId varchar(255),
+			paymentProvider varchar(255),
+			paymentId varchar(255),
+			currency varchar(3),
 			trasactionTimeStamp timestamp,
 			token varchar(255),
       PRIMARY KEY  (id)
