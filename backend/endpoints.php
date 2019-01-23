@@ -14,12 +14,19 @@ class EndPoints {
   }
 
   function getBooking( $data ) {
-    return $this->db->getBooking( $data->get_params() );
+		$table = Database::tableNames()->booking;
+		return $this->db->queryGeneric( $table, $data->get_params() );
+    // return $this->db->getBooking( $data->get_params() );
   }
 
-  function insertBooking( $data ) {
+	function insertBooking( $data ) {
 		$table = Database::tableNames()->booking;
-    return $this->db->insert( $table, $data->get_params() );
+    return $this->db->insert( $table, $data->get_json_params() );
+  }
+
+	function deleteBooking( $data ) {
+		$table = Database::tableNames()->booking;
+    return $this->db->deleteRows( $table, $data->get_params() );
   }
 
 	function getFreeGuide( $data ) {
@@ -63,6 +70,10 @@ class EndPoints {
 			array(
       	'methods' => 'POST',
       	'callback' => array( $this, 'insertBooking' )
+			),
+			array(
+      	'methods' => 'DELETE',
+      	'callback' => array( $this, 'deleteBooking' )
 			),
     ) );
 

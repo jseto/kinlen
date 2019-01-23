@@ -5,6 +5,7 @@
  */
 
 class Database {
+
 	/**
 	 * Generic booking table fetch.
 	 * Values in $params array are transformed in a sql where clause
@@ -85,30 +86,52 @@ class Database {
 		return $this->query( $table, $whereArr );
   }
 
-	function queryGeneric( $table, $params ) {
+	private function buildWhereArray( $params ) {
+		$whereArr = [];
 		foreach ( $params as $key => $value ) {
 			$whereArr[] = $key.'= "'.$value.'"';
 		}
 
-		return $this->query( $table, $whereArr );
+		return $whereArr;
 	}
 
-	private function query( $table, $whereArr ) {
+	function queryGeneric( $table, $params ) {
+		return $this->query( $table, $this->buildWhereArray( $params ) );
+	}
+
+	private function query( $table, $whereArr, $removeToken = true ) {
 		$sqlStr = 'SELECT * FROM '.$table;
 		if ( !empty( $whereArr ) ) {
 			$sqlStr = $sqlStr.' WHERE '.join( " AND ", $whereArr );
 		}
 
 		global $wpdb;
-		return $wpdb->get_results( $sqlStr, OBJECT );
+		$resp = $wpdb->get_results( $sqlStr, OBJECT );
+		if ( $removeToken ) {
+			foreach ( $resp as $row ) {
+				unset( $row->token );
+			}
+		}
+		return $resp;
 	}
 
 	function insert( $table, $data ) {
 		global $wpdb;
+		$data[ 'token' ] = wp_generate_uuid4();
 		$wpdb->insert( $table, $data );
 
 		$sqlStr = 'SELECT * FROM '.$table.' WHERE id='.$wpdb->insert_id;
 		return $wpdb->get_results( $sqlStr, OBJECT );
+	}
+
+	function deleteRows( $table, $data ) {
+		global $wpdb;
+		if ( isset( $data['token'] ) ) {
+			return $wpdb->delete( $table, $data );
+		}
+		else {
+			return false;
+		}
 	}
 
 	static function tableNames() {
@@ -154,6 +177,7 @@ class Database {
 			email varchar(255),
 			paypalPaymentId varchar(255),
 			trasactionTimeStamp timestamp,
+			token varchar(255),
       PRIMARY KEY  (id)
       ) $charset_collate;";
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -167,6 +191,7 @@ class Database {
 			email varchar(255),
 			line_id varchar(255),
 			paypal varchar(255),
+			token varchar(255),
 			PRIMARY KEY (id)
 		) $charset_collate;";
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -174,14 +199,16 @@ class Database {
 
 		$sql = "CREATE TABLE $tNames->guideHolidays (
 			id int(10),
-			date date
+			date date,
+			token varchar(255)
 		) $charset_collate;";
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	  maybe_create_table( $tNames->guideHolidays, $sql );
 
 		$sql = "CREATE TABLE $tNames->restaurantHolidays (
 			id int(10),
-			date date
+			date date,
+			token varchar(255)
 		) $charset_collate;";
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	  maybe_create_table( $tNames->restaurantHolidays, $sql );
@@ -206,6 +233,7 @@ class Database {
 			googleMaps varchar(255),
 			images varchar(255),
 			paypal varchar(255),
+			token varchar(255),
 			PRIMARY KEY (id)
 		) $charset_collate;";
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -219,6 +247,7 @@ class Database {
 			valueType varchar(10),
 			commission int(10),
 			commisionistId int(10),
+			token varchar(255),
 			PRIMARY KEY (id)
 		) $charset_collate;";
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
