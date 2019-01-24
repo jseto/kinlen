@@ -116,7 +116,7 @@ class Database {
 	}
 
 	function insert( $table, $data ) {
-		if (!isset( $data[ 'paid' ] ) ) {
+		if ( !$data[ 'paid' ] ) {
 			global $wpdb;
 			$data[ 'token' ] = wp_generate_uuid4();
 			$wpdb->insert( $table, $data );
