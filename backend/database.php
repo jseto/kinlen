@@ -116,17 +116,36 @@ class Database {
 	}
 
 	function insert( $table, $data ) {
-		global $wpdb;
-		$data[ 'token' ] = wp_generate_uuid4();
-		$wpdb->insert( $table, $data );
+		if (!isset( $data[ 'paid' ] ) ) {
+			global $wpdb;
+			$data[ 'token' ] = wp_generate_uuid4();
+			$wpdb->insert( $table, $data );
 
-		$sqlStr = 'SELECT * FROM '.$table.' WHERE id='.$wpdb->insert_id;
-		return $wpdb->get_results( $sqlStr, OBJECT );
+			$sqlStr = 'SELECT * FROM '.$table.' WHERE id='.$wpdb->insert_id;
+			return $wpdb->get_results( $sqlStr, OBJECT );
+		}
+		else {
+			return [];
+		}
+	}
+
+	function update( $table, $data ) {
+		if ( isset( $data[ 'token' ] ) ) {
+			global $wpdb;
+			$search['id']=$data['id'];
+			$search['token']=$data['token'];
+			unset( $data->id );
+			unset( $data->token );
+			return $wpdb->update( $table, $data, $search );
+		}
+		else {
+			return false;
+		}
 	}
 
 	function deleteRows( $table, $data ) {
-		global $wpdb;
 		if ( isset( $data['token'] ) ) {
+			global $wpdb;
 			return $wpdb->delete( $table, $data );
 		}
 		else {

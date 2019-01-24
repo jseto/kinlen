@@ -24,6 +24,11 @@ class EndPoints {
     return $this->db->insert( $table, $data->get_json_params() );
   }
 
+	function updateBooking( $data ) {
+		$table = Database::tableNames()->booking;
+    return $this->db->update( $table, $data->get_json_params() );
+  }
+
 	function deleteBooking( $data ) {
 		$table = Database::tableNames()->booking;
     return $this->db->deleteRows( $table, $data->get_params() );
@@ -74,6 +79,10 @@ class EndPoints {
 			array(
       	'methods' => 'DELETE',
       	'callback' => array( $this, 'deleteBooking' )
+			),
+			array(
+      	'methods' => 'PUT',
+      	'callback' => array( $this, 'updateBooking' )
 			),
     ) );
 
