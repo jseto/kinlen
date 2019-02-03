@@ -134,8 +134,8 @@ class Database {
 			global $wpdb;
 			$search['id']=$data['id'];
 			$search['token']=$data['token'];
-			unset( $data->id );
-			unset( $data->token );
+			unset( $data['id'] );
+			unset( $data['token'] );
 			return $wpdb->update( $table, $data, $search );
 		}
 		else {

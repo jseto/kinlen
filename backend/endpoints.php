@@ -4,7 +4,10 @@
  * @package           KinLen
  */
 
+define( 'KINLEN_PATH', plugin_dir_path( __FILE__ ) );
+
 require_once 'database.php';
+require_once 'mails.php';
 
 class EndPoints {
   protected $db = NULL;
@@ -26,7 +29,12 @@ class EndPoints {
 
 	function updateBooking( $data ) {
 		$table = Database::tableNames()->booking;
-    return $this->db->update( $table, $data->get_json_params() );
+    $retVal = $this->db->update( $table, $data->get_json_params() );
+		if ( $retVal ) {
+			$search = array( 'id' => $data->get_json_params()['id'] );
+			$retVal = Mails::bookingConfirmation( $this->db->queryGeneric( $table, $search )[0] );
+		}
+		return $retVal;
   }
 
 	function deleteBooking( $data ) {
