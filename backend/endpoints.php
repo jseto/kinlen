@@ -31,8 +31,14 @@ class EndPoints {
 		$table = Database::tableNames()->booking;
     $retVal = $this->db->update( $table, $data->get_json_params() );
 		if ( $retVal ) {
-			$search = array( 'id' => $data->get_json_params()['id'] );
-			$retVal = Mails::bookingConfirmation( $this->db->queryGeneric( $table, $search )[0] );
+			$booking = $this->db->queryGeneric( $table, array(
+				'id' => $data->get_json_params()['id']
+			))[0];
+			$guide = $this->db->queryGeneric( Database::tableNames()->guide, array(
+				'id' => $booking->guide_id
+ 			))[0];
+
+			$retVal = Mails::bookingConfirmation( $booking, $guide );
 		}
 		return $retVal;
   }
