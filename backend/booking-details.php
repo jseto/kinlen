@@ -17,12 +17,20 @@ $guide = $db->queryGeneric( Database::tableNames()->guide, array(
 	'id' => $booking->guide_id
 ))[0];
 
+$restaurant = $db->queryGeneric( Database::tableNames()->restaurant, array(
+	'id' => $booking->restaurant_id
+))[0];
+
 ?>
 
 <table align="center">
 	<tr>
     <td><strong>Booking reference<strong></td>
     <td><?php echo str_pad( $booking->id, 5, '0', STR_PAD_LEFT).$day->format('ymd').$time->format('His') ?></td>
+  </tr>
+	<tr>
+    <td><strong>Restaurant name<strong></td>
+    <td><?php echo $restaurant->name ?></td>
   </tr>
 	<tr>
     <td><strong>Your name<strong></td>

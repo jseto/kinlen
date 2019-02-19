@@ -6,12 +6,12 @@
 
 class Mails {
 
-	static function bookingConfirmation( $booking, $guide ) {
+	static function bookingConfirmation( $booking, $guide, $restaurant ) {
 		$html = file_get_contents( KINLEN_PATH . 'templates/booking-confirmation.html' );
 		$text = file_get_contents( KINLEN_PATH . 'templates/booking-confirmation.md' );
 
-		$message['text/plain'] = Mails::replaceVars( $text, $booking, $guide );
-		$message['text/html'] = Mails::replaceVars( $html, $booking, $guide );
+		$message['text/plain'] = Mails::replaceVars( $text, $booking, $guide, $restaurant );
+		$message['text/html'] = Mails::replaceVars( $html, $booking, $guide, $restaurant );
 
 		$to = $booking->name.' <'.$booking->email.'>';
 		$subject = 'KinLen booking confirmation';
@@ -40,11 +40,12 @@ class Mails {
 		return 'frontier';
 	}
 
-	static function replaceVars( $txt, $booking, $guide ) {
+	static function replaceVars( $txt, $booking, $guide, $restaurant ) {
 		$day = new DateTime( $booking->date );
 		$time = new DateTime( $booking->time );
 
 		return strtr( $txt, array(
+			'$restaurantName' => $restaurant->name,
 			'$name' => $booking->name,
 			'$email' => $booking->email,
 			'$adults' => $booking->adults,
@@ -59,11 +60,15 @@ class Mails {
 
 	static function sendTestBookingConfirmation( $to = '' ) {
 		if ( $to == '' ) {
-			$to = $_GET['to'];
-			if (  $to == '' ) {
+			if ( isset( $_GET['to'] ) ) {
+				$to = $_GET['to'];
+			}
+			else {
 				$to='jsetojseto@gmail.com';
 			}
 		}
+		echo 'Sending email to: '.$to."\n";
+
 		$booking['id']='300';
 		$booking['name']='test test test';
 		$booking['email']=$to;
@@ -74,8 +79,9 @@ class Mails {
 		$booking['time']='19:00';
 		$guide['name']='Somchai';
 		$guide['email']='somchai@bestthaifood.info';
+		$restaurant['name']='Beautiful restauant';
 
-		if ( Mails::bookingConfirmation( (object)$booking, (object)$guide ) ) {
+		if ( Mails::bookingConfirmation( (object)$booking, (object)$guide, (object)$restaurant ) ) {
 			echo 'funciona ';
 		}
 		else {

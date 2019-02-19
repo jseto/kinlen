@@ -10,6 +10,7 @@ Booking details
 |                          |                   |
 |--------------------------|-------------------|
 | __Booking Reference:__   | $bookingReference |
+| __Restaurant Name:__     | $restaurantName   |
 | __Your name:__           | $name             |
 | __Your email:__          | $email            |
 | __Adult Guests:__        | $adults           |

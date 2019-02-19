@@ -37,8 +37,11 @@ class EndPoints {
 			$guide = $this->db->queryGeneric( Database::tableNames()->guide, array(
 				'id' => $booking->guide_id
  			))[0];
+			$restaurant = $this->db->queryGeneric( Database::tableNames()->restaurant, array(
+				'id' => $booking->restaurant_id
+ 			))[0];
 
-			$retVal = Mails::bookingConfirmation( $booking, $guide );
+			$retVal = Mails::bookingConfirmation( $booking, $guide, $restaurant );
 		}
 		return $retVal;
   }
