@@ -45,7 +45,7 @@ If you have any comment or you need to contact us, send a message to info@bestth
 
 [![mail]](mailto:info@bestthaifood.info) [![twitter]](https://twitter.com/kinlen_bkk) [![instagram]](https://instagram.com/kinlen.bkk) [![facebook]](https://facebook.com/kinlen.bkk)
 
-KinLen. 333 Krungthonburi Road, Klongtonsai, Klongsan, Bangkok, 10600. Thailand.  
+KinLen. 133 Cecil Street, Keck Seng Tower, Singapur 069535  
 Tel. 0633953170
 
 

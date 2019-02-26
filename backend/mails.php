@@ -25,7 +25,7 @@ class Mails {
 		return wp_mail( $to, $subject, $message['text/html'], $header );
 	}
 
-	static function multipart( $message ) {
+	private static function multipart( $message ) {
 		foreach ($message as $key => $value) {
 			$bodyLines[] = '--'.Mails::boundary();
 			$bodyLines[] = 'Content-Type: '.$key."; charset=UTF-8\n";
@@ -36,11 +36,11 @@ class Mails {
 		return join( "\n", $bodyLines );
 	}
 
-	static function boundary() {
+	private static function boundary() {
 		return 'frontier';
 	}
 
-	static function replaceVars( $txt, $booking, $guide, $restaurant ) {
+	private static function replaceVars( $txt, $booking, $guide, $restaurant ) {
 		$day = new DateTime( $booking->date );
 		$time = new DateTime( $booking->time );
 
