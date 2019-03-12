@@ -11,7 +11,7 @@ Code: VAL300WEB
 
 Enter your code at booking time to get a ฿300 value discount.
 
-Try our Isaan food restaurant for only ฿1100 after your discount.
+Try our Isaan food restaurant for only ฿1200 after your discount.
 --------------------------------------
 
 | Isaan Scape | [Get more info»] |
@@ -23,7 +23,6 @@ If you have any comment or you need to contact us, send a message to info@bestth
 [![mail]](mailto:info@bestthaifood.info) [![twitter]](https://twitter.com/kinlen_bkk) [![instagram]](https://instagram.com/kinlen.bkk) [![facebook]](https://facebook.com/kinlen.bkk)
 
 KinLen. 133 Cecil Street, Keck Seng Tower, Singapur 069535  
-Tel. 0633953170
 
 
 [KinLen Krung Thon Buri]: https://www.google.com/maps/place/Kinlen+Krung+Thon+Buri/@13.7212809,100.5021175,19z/data=!4m5!3m4!1s0x30e2994ee0bd4351:0x8834c07c1d9f9cd7!8m2!3d13.7212809!4d100.5026647
