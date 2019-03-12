@@ -197,6 +197,7 @@ class Database {
 			paymentProvider varchar(255),
 			paymentId varchar(255),
 			currency varchar(3),
+			affiliateId varchar(15),
 			trasactionTimeStamp timestamp,
 			token varchar(255),
       PRIMARY KEY  (id)
